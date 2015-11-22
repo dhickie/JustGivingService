@@ -1,0 +1,1 @@
+browserify -t reactify ./source/ConfigPageContainer.js -o bundle.js

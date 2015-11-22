@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 14 for Windows Desktop
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustGivingService", "JustGivingService\JustGivingService.csproj", "{36BD1AE7-5130-4CAA-9F39-C9FD5B63146F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustGivingThrift", "JustGivingThrift\JustGivingThrift.csproj", "{7B872632-FE95-4675-95F0-5DCB4A51906B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36BD1AE7-5130-4CAA-9F39-C9FD5B63146F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36BD1AE7-5130-4CAA-9F39-C9FD5B63146F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36BD1AE7-5130-4CAA-9F39-C9FD5B63146F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36BD1AE7-5130-4CAA-9F39-C9FD5B63146F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B872632-FE95-4675-95F0-5DCB4A51906B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B872632-FE95-4675-95F0-5DCB4A51906B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B872632-FE95-4675-95F0-5DCB4A51906B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B872632-FE95-4675-95F0-5DCB4A51906B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
