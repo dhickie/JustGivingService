@@ -2,6 +2,7 @@
 	<head>
 		<title>JustGiving Service configuration</title>
 		<link href="bootstrap.min.css" rel="stylesheet"/>
+		<link href="favicon.ico" rel="shortcut icon"/>
 	</head>
 	<body>
 		<div id="root"></div>
