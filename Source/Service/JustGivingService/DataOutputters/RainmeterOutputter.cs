@@ -17,6 +17,10 @@ namespace JustGivingService.DataOutputters
     /// </summary>
     class RainmeterOutputter : DataOutputter
     {
+        // Consts
+        int MAX_PAGE_NAME_LENGTH = 49;
+        int MAX_DONATOR_NAME_LENGTH = 22;
+
         // Member variables
         private String m_rainmeterDir;
 
@@ -37,7 +41,14 @@ namespace JustGivingService.DataOutputters
             // Set all the variables in the rainmeter skin for this fundraiser
             try
             {
-                SetRainmeterVariable("fundRaiserName", fundraiser.Name);
+                // The rainmeter skin can display a limited number of characters, if the name goes over this then truncate it
+                String name = fundraiser.Name;
+                if (name.Length > MAX_PAGE_NAME_LENGTH)
+                {
+                    name = name.Substring(0, MAX_PAGE_NAME_LENGTH - 3) + "...";
+                }
+                SetRainmeterVariable("fundRaiserName", name);
+
                 if (fundraiser.FundingTarget != null)
                 {
                     SetRainmeterVariable("fundingTarget", fundraiser.FundingTarget.ToString());
@@ -66,7 +77,15 @@ namespace JustGivingService.DataOutputters
                     {
                         SetRainmeterVariable(dateVarName, String.Empty);
                     }
-                    SetRainmeterVariable(nameVarName, donation.Name);
+
+                    // The rainmeter skin can display a limited number of characters, if the donator's name goes over this then truncate it
+                    String donatorName = donation.Name;
+                    if (donatorName.Length > MAX_DONATOR_NAME_LENGTH)
+                    {
+                        name = name.Substring(0, MAX_DONATOR_NAME_LENGTH - 3) + "...";
+                    }
+                    SetRainmeterVariable(nameVarName, donatorName);
+
                     if (donation.Value != null)
                     {
                         // The rainmeter skin requires us to add the currency symbol to the start of the donation amount.

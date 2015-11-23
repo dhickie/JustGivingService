@@ -93,7 +93,7 @@ namespace JustGivingService.Model
             {
                 same = false;
             }
-            if (CurrencySymbol != fundraiser.CurrentFunding)
+            if (CurrencySymbol != fundraiser.CurrencySymbol)
             {
                 same = false;
             }
