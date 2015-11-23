@@ -18,12 +18,12 @@ namespace JustGivingService.Controllers
         private static object instanceLock = new object();
 
         // Member variables
-        private Dictionary<String, Fundraiser> m_lastSent;
+        private Dictionary<int, Fundraiser> m_lastSent;
         private DataOutputter m_outputter;
 
         private DataOutputController()
         {
-            m_lastSent = new Dictionary<string, Fundraiser>();
+            m_lastSent = new Dictionary<int, Fundraiser>();
             m_outputter = new RainmeterOutputter();
         }
 
@@ -47,12 +47,12 @@ namespace JustGivingService.Controllers
             }
         }
 
-        public static bool SendFundraiserData(Fundraiser fundraiser)
+        public static bool SendFundraiserData(int threadId, Fundraiser fundraiser)
         {
-            return Instance.SendFundraiserDataImpl(fundraiser);
+            return Instance.SendFundraiserDataImpl(threadId, fundraiser);
         }
 
-        private bool SendFundraiserDataImpl(Fundraiser fundraiser)
+        private bool SendFundraiserDataImpl(int threadId, Fundraiser fundraiser)
         {
             bool result = true;
             bool sendData = true;
@@ -60,9 +60,9 @@ namespace JustGivingService.Controllers
 
             // Check to see if we've sent the data for this fundraiser in the past,
             // if we have then don't bother sending it if it hasn't changed
-            if (m_lastSent.ContainsKey(pageId))
+            if (m_lastSent.ContainsKey(threadId))
             {
-                if (m_lastSent[pageId].Equals(fundraiser))
+                if (m_lastSent[threadId].Equals(fundraiser))
                 {
                     sendData = false;
                 }
@@ -81,13 +81,13 @@ namespace JustGivingService.Controllers
                 {
                     Fundraiser lastSent = new Fundraiser(pageId);
                     lastSent.CopyDetails(fundraiser);
-                    if (m_lastSent.ContainsKey(fundraiser.Id))
+                    if (m_lastSent.ContainsKey(threadId))
                     {
-                        m_lastSent[fundraiser.Id] = lastSent;
+                        m_lastSent[threadId] = lastSent;
                     }
                     else
                     {
-                        m_lastSent.Add(fundraiser.Id, lastSent);
+                        m_lastSent.Add(threadId, lastSent);
                     }
                 }
             }

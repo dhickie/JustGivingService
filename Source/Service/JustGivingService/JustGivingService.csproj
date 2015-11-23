@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{36BD1AE7-5130-4CAA-9F39-C9FD5B63146F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JustGivingService</RootNamespace>
     <AssemblyName>JustGivingService</AssemblyName>
@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>JustGivingService.Service</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -43,14 +46,9 @@
     <Compile Include="DataOutputters\RainmeterOutputter.cs" />
     <Compile Include="Routers\ConfigServer.cs" />
     <Compile Include="Routers\DataAquisition.cs" />
-    <Compile Include="Service.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Service.cs" />
     <Compile Include="Model\Donation.cs" />
     <Compile Include="Model\Fundraiser.cs" />
-    <Compile Include="JustGivingServiceInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Routers\DataOutput.cs" />
   </ItemGroup>
   <ItemGroup>

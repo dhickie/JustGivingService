@@ -3,6 +3,8 @@ Source/Service/JustGivingService/obj/
 Source/Service/JustGivingService/bin/
 Source/Service/JustGivingThrift/obj/
 Source/Service/JustGivingThrift/bin/
+Source/Service/Installer/obj/
+Source/Service/Installer/bin/
 Source/ServiceConfig/ReactComponents/node_modules/
 Source/Service/packages/
 Source/Thrift/gen-csharp/

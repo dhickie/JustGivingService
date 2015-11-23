@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ServiceProcess;
 using System.Threading;
 using JustGivingService.Routers;
 using JustGivingService.Controllers;
+using System.IO;
 
 namespace JustGivingService
 {
-    public class Service : ServiceBase
+    public class Service
     {
-        public Service()
+        public static void Main()
         {
-            this.ServiceName = "JustGivingService";
-            this.CanStop = true;
-            this.CanPauseAndContinue = false;
-            this.AutoLog = true;
+            // Set the current directory to the executable's directory so that we can use relative paths
+            // no matter where this is run from.
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+
+            // Initialise the threads
+            InitialiseThreads();
+
+            // Use an event handle to stop this thread from ending without consuming CPU time
+            EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+            waitHandle.WaitOne();
         }
 
-        protected override void OnStart(string[] args)
+        private static void InitialiseThreads()
         {
             // Start up the thrift config server
             ThreadStart configServerStart = new ThreadStart(ConfigServer.EntryPoint);
@@ -39,24 +45,6 @@ namespace JustGivingService
                 Thread outputThread = new Thread(dataOutputStart);
                 outputThread.Start(i);
             }
-        }
-
-        protected override void OnStop()
-        {
-            base.OnStop();
-        }
-
-        public static void Main()
-        {
-            // This is a crude way of dealing with debugging, but it would seem windows services don't play nice with
-            // visual studio express edition.
-#if (!DEBUG)
-            ServiceBase.Run(new Service());
-#else
-            Service service = new Service();
-            service.OnStart(null);
-            while (true) ;
-#endif
         }
     }
 }

@@ -99,7 +99,7 @@ namespace JustGivingService.DataOutputters
                     }
                 }
             }
-            catch (ExternalException)
+            catch (ExternalException e)
             {
                 // There's been an error setting one of the variables.
                 result = false;
@@ -119,7 +119,7 @@ namespace JustGivingService.DataOutputters
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.FileName = m_rainmeterDir;
             startInfo.Arguments = String.Format("!SetVariable {0} \"{1}\"", name, value);
-
+            
             Process process = new Process();
             process.StartInfo = startInfo;
             process.Start();

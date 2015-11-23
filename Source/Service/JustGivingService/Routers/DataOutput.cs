@@ -31,7 +31,7 @@ namespace JustGivingService.Routers
                 if (fundraiser != null)
                 {
                     // Send it across to the DataOutputController
-                    DataOutputController.SendFundraiserData(fundraiser);
+                    DataOutputController.SendFundraiserData(threadIdInt, fundraiser);
                 }
 
                 Thread.Sleep(pollingPeriod);

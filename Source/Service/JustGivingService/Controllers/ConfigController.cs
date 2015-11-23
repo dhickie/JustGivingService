@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using JustGivingThrift;
+using System.IO;
 
 namespace JustGivingService.Controllers
 {
@@ -24,29 +25,36 @@ namespace JustGivingService.Controllers
         {
             m_configLock = new object();
 
-            lock (m_configLock)
+            try
             {
-                m_pageIds = new List<string>();
-
-                // On initialisation, read the xml config file from the service's executable directory
-                XmlReader reader = XmlReader.Create("ServiceConfig.xml");
-
-                // Rainmeter install directory
-                reader.ReadToFollowing("RainmeterInstallDir");
-                reader.Read();
-                m_rainmeterInstallDir = reader.Value;
-
-                // Polling period
-                reader.ReadToFollowing("PollingPeriod");
-                reader.Read();
-                m_apiPollingPeriod = Int32.Parse(reader.Value);
-
-                // Page IDs
-                while (reader.ReadToFollowing("PageId"))
+                lock (m_configLock)
                 {
+                    m_pageIds = new List<string>();
+
+                    // On initialisation, read the xml config file from the service's executable directory
+                    XmlReader reader = XmlReader.Create("ServiceConfig.xml");
+
+                    // Rainmeter install directory
+                    reader.ReadToFollowing("RainmeterInstallDir");
                     reader.Read();
-                    m_pageIds.Add(reader.Value);
+                    m_rainmeterInstallDir = reader.Value;
+
+                    // Polling period
+                    reader.ReadToFollowing("PollingPeriod");
+                    reader.Read();
+                    m_apiPollingPeriod = Int32.Parse(reader.Value);
+
+                    // Page IDs
+                    while (reader.ReadToFollowing("PageId"))
+                    {
+                        reader.Read();
+                        m_pageIds.Add(reader.Value);
+                    }
                 }
+            }
+            catch (FileNotFoundException e)
+            {
+                // TODO add some logging here
             }
         }
 

@@ -1,5 +1,5 @@
 <JustGivingServiceConfig>
-	<RainmeterInstallDir>C:\ProgramFiles\Rainmeter\Rainmeter.exe</RainmeterInstallDir>
+	<RainmeterInstallDir>C:\Program Files\Rainmeter\Rainmeter.exe</RainmeterInstallDir>
 	<PollingPeriod>10000</PollingPeriod>
 	<PageId>Dominic-Hickie</PageId>
 </JustGivingServiceConfig>
