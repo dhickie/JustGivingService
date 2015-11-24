@@ -19,11 +19,12 @@ namespace Installer
         {
             String CATALINA_HOME = null;
             String JRE_HOME = null;
+            String RAINMETER_HOME = null;
             String RAINMETER_SKINS_HOME = null;
 
             // First check the required environment variables exist
             Console.WriteLine("Performing pre-install checks...");
-            bool result = CheckEnvironmentVariables(out CATALINA_HOME, out JRE_HOME, out RAINMETER_SKINS_HOME);
+            bool result = CheckEnvironmentVariables(out CATALINA_HOME, out JRE_HOME, out RAINMETER_HOME, out RAINMETER_SKINS_HOME);
 
             // Now copy the service configuration files
             if (result)
@@ -36,7 +37,7 @@ namespace Installer
             if (result)
             {
                 Console.WriteLine("Installing rainmeter skin...");
-                result = InstallRainmeterSkin(RAINMETER_SKINS_HOME);
+                result = InstallRainmeterSkin(RAINMETER_HOME, RAINMETER_SKINS_HOME);
             }
 
             // Install the windows service
@@ -61,18 +62,20 @@ namespace Installer
             Console.ReadKey();
         }
 
-        private static bool CheckEnvironmentVariables(out String CATALINA_HOME, out String JRE_HOME, out String RAINMETER_SKINS_HOME)
+        private static bool CheckEnvironmentVariables(out String CATALINA_HOME, out String JRE_HOME, out String RAINMETER_HOME, out String RAINMETER_SKINS_HOME)
         {
             bool result = true;
 
             CATALINA_HOME = String.Empty;
             JRE_HOME = String.Empty;
+            RAINMETER_HOME = String.Empty;
             RAINMETER_SKINS_HOME = String.Empty;
 
             try
             {
                 CATALINA_HOME = Environment.GetEnvironmentVariable("CATALINA_HOME");
                 JRE_HOME = Environment.GetEnvironmentVariable("JRE_HOME");
+                RAINMETER_HOME = Environment.GetEnvironmentVariable("RAINMETER_HOME");
                 RAINMETER_SKINS_HOME = Environment.GetEnvironmentVariable("RAINMETER_SKINS_HOME");
 
                 if (CATALINA_HOME == null)
@@ -83,6 +86,11 @@ namespace Installer
                 if (JRE_HOME == null)
                 {
                     Console.WriteLine("Error: Missing environment variables - JRE_HOME");
+                    result = false;
+                }
+                if (RAINMETER_HOME == null)
+                {
+                    Console.WriteLine("Error: Missing environment variable - RAINMETER_HOME");
                     result = false;
                 }
                 if (RAINMETER_SKINS_HOME == null)
@@ -141,15 +149,35 @@ namespace Installer
             return result;
         }
 
-        private static bool InstallRainmeterSkin(String RAINMETER_SKINS_HOME)
+        private static bool InstallRainmeterSkin(String RAINMETER_HOME, String RAINMETER_SKINS_HOME)
         {
             bool result = true;
 
             try
             {
-                String rainmeterSrc = Path.Combine(Directory.GetCurrentDirectory(), "Rainmeter");
-                String rainmeterDst = Path.Combine(RAINMETER_SKINS_HOME, "JustGiving");
-                result = CopyDirectoryContents(rainmeterSrc, rainmeterDst);
+                // Disable the current version of the skin if it's running
+                String rainmeterExe = Path.Combine(RAINMETER_HOME, "Rainmeter.exe");
+                result = RunCommand(rainmeterExe, "!DeactivateConfig \"JustGiving\\Fundraiser\"", waitForExit: true);
+
+                // Copy the rainmeter skin
+                if (result)
+                {
+                    String rainmeterSrc = Path.Combine(Directory.GetCurrentDirectory(), "Rainmeter");
+                    String rainmeterDst = Path.Combine(RAINMETER_SKINS_HOME, "JustGiving");
+                    result = CopyDirectoryContents(rainmeterSrc, rainmeterDst);
+                }
+
+                // Refresh rainmeter to pick up the skin if it's being deployed for the first time
+                if (result)
+                {
+                    result = RunCommand(rainmeterExe, "!RefreshApp", waitForExit: true);
+                }
+
+                // Tell Rainmeter to activate the skin
+                if (result)
+                {
+                    result = RunCommand(rainmeterExe, "!ActivateConfig \"JustGiving\\Fundraiser\"", waitForExit: true);
+                }
             }
             catch (Exception e)
             {

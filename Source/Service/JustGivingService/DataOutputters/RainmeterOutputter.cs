@@ -22,11 +22,11 @@ namespace JustGivingService.DataOutputters
         int MAX_DONATOR_NAME_LENGTH = 22;
 
         // Member variables
-        private String m_rainmeterDir;
+        String m_rainmeterDir;
 
         public RainmeterOutputter()
         {
-            m_rainmeterDir = ConfigController.GetRainmeterDir();
+
         }
 
         /// <summary>
@@ -37,6 +37,7 @@ namespace JustGivingService.DataOutputters
         public override bool SendFundraiser(Fundraiser fundraiser)
         {
             bool result = true;
+            m_rainmeterDir = ConfigController.GetRainmeterDir();
 
             // Set all the variables in the rainmeter skin for this fundraiser
             try
@@ -99,7 +100,7 @@ namespace JustGivingService.DataOutputters
                     }
                 }
             }
-            catch (ExternalException e)
+            catch (Exception e)
             {
                 // There's been an error setting one of the variables.
                 result = false;
