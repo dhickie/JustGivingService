@@ -117,6 +117,7 @@ There are a few things I know could be improved, and would like to do when I, or
 - **Make configuration changes more responsive** - At the moment, whenever the service configuration is changed through the configuration UI, the user has to wait for the next update cycle to come around before the data for the new fundraiser is outputted to the screen. It would be nice if instead the update happened immediately using the new configuration.
 - **Improve the configuration UI** - At the moment the configuration UI looks a little slapdash. It could do with a once-over to make text boxes a more appropriate size and make things line up nicer.
 - **Tests** - If this is going to get any bigger or more elaborate, one of the first steps should be adding some automated tests to make sure everything does what it's supposed to.
+- **Logging** - Similar to above, a proper logging framework is needed to help debugging.
 - **Other improvements** - Other miscellaneous improvements:
   - The Rainmeter install directory doesn't really need to be in the service configuration since it's in an environment variable from the service install.
   - Move all constants in to a single file in the C# layer.
