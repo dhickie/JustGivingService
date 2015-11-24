@@ -93,6 +93,9 @@ The service's overall architecture is designed to be fairly modular, to make any
 - **Rainmeter skin** - With version 1, this is the only way to actually display the fundraising data on the desktop. The C# process tells the skin what to display via command line arguments to the Rainmeter executable.
 - **Configuration page** - This is a JSP page running on Tomcat which allows the user to edit the current configuration, by making use of React JS and Bootstrap. Getting and setting the configuration from the C# process is done via a Java servlet (also running on Tomcat), which then communicates with the C# process via Apache Thrift.
 
+Here's a diagram of how everything fits together:
+![Service architecture](Media/architecture.png)
+
 #### Outputting fundraising data
 Version 1 only comes with one data outputter, which displays fundraising data in a Rainmeter skin. However, if you want to cater for outputting fundraising data to a different application, you can do so relatively easily:
 - In the C# service project, create a new class in the DataOutputters folder which inherits from the DataOutputter class and deals with outputting fundraising data to your external application of choice.
@@ -111,6 +114,7 @@ There are a few things I know could be improved, and would like to do when I, or
 - **Make the build proccess less horrible** - At the moment, all the different layers are compiled separately using different tools. And when they're built, they're not automatically put in the right place to run a debug build. It would be nice if there was a single command that could be run from the command line to build, bundle and install all the current code.
 - **Make configuration changes more responsive** - At the moment, whenever the service configuration is changed through the configuration UI, the user has to wait for the next update cycle to come around before the data for the new fundraiser is outputted to the screen. It would be nice if instead the update happened immediately using the new configuration.
 - **Improve the configuration UI** - At the moment the configuration UI looks a little slapdash. It could do with a once-over to make text boxes a more appropriate size and make things line up nicer.
+- **Tests** - If this is going to get any bigger or more elaborate, one of the first steps should be adding some automated tests to make sure everything does what it's supposed to.
 - **Other improvements** - Other miscellaneous improvements:
   - The Rainmeter install directory doesn't really need to be in the service configuration since it's in an environment variable from the service install.
   - Move all constants in to a single file in the C# layer.
