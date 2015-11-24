@@ -75,3 +75,43 @@ By default, the JustGivingService is configured to display the details of my fun
 There are a couple of other options here for configuring the service:
 - `Rainmeter exe location` - This should point to the location on your computer where you have Rainmeter installed.
 - `Polling period (ms)` - This is how often (in milliseconds) you want the service to check with JustGiving's servers to see if any details of the fundraising page have changed. The default is 10 seconds.
+
+## Development
+Should you choose to further develop this, here's some information to help you on your way.
+
+#### Tools
+There are a few tools used for development (all of them free) which you'll need if you do any development:
+- Visual Studio Express/Community 2015 ([link](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx))
+- Eclipse for Java Developers ([link](https://eclipse.org/downloads/))
+- Node JS ([link](https://nodejs.org/en/download/))
+
+You'll also need some sort of text editor if you want to do any work on the JavaScript layer. Personally I used Sublime Text.
+
+#### Architecture
+The service's overall architecture is designed to be fairly modular, to make any potential future development as easy as possible. There are 3 main components:
+- **C# Service** - This is the meat of the application. It co-ordinates the other components and deals with polling the JustGiving API, storing fundraising data, reacting to configuration changes and outputting fundraising data to the screen.
+- **Rainmeter skin** - With version 1, this is the only way to actually display the fundraising data on the desktop. The C# process tells the skin what to display via command line arguments to the Rainmeter executable.
+- **Configuration page** - This is a JSP page running on Tomcat which allows the user to edit the current configuration, by making use of React JS and Bootstrap. Getting and setting the configuration from the C# process is done via a Java servlet (also running on Tomcat), which then communicates with the C# process via Apache Thrift.
+
+#### Outputting fundraising data
+Version 1 only comes with one data outputter, which displays fundraising data in a Rainmeter skin. However, if you want to cater for outputting fundraising data to a different application, you can do so relatively easily:
+- In the C# service project, create a new class in the DataOutputters folder which inherits from the DataOutputter class and deals with outputting fundraising data to your external application of choice.
+- Modify the DataOutputController class to use your new class instead of the pre-existing RainmeterOutputter.
+
+#### Working with the JavaScript layer
+The JavaScript code used by the configuration screen front-end makes use of several JavaScript libraries to make things work nicely. If you want to do work here you'll need to get these packages locally:
+- Open a command line instance and navigate to `Source\ServiceConfig\ReactComponents`.
+- Run the command `npm install -g browserify`
+- Run the command `npm install`
+
+Now, whenever you've made changes to any JavaScript then you can run `build.bat` from the directory mentioned above to bundle all the code into a single file, `bundle.js`, which is run on the JSP page.
+
+#### Future work
+There are a few things I know could be improved, and would like to do when I, or anyone else, has the time.
+- **Make the build proccess less horrible** - At the moment, all the different layers are compiled separately using different tools. And when they're built, they're not automatically put in the right place to run a debug build. It would be nice if there was a single command that could be run from the command line to build, bundle and install all the current code.
+- **Make configuration changes more responsive** - At the moment, whenever the service configuration is changed through the configuration UI, the user has to wait for the next update cycle to come around before the data for the new fundraiser is outputted to the screen. It would be nice if instead the update happened immediately using the new configuration.
+- **Improve the configuration UI** - At the moment the configuration UI looks a little slapdash. It could do with a once-over to make text boxes a more appropriate size and make things line up nicer.
+- **Other improvements** - Other miscellaneous improvements:
+  - The Rainmeter install directory doesn't really need to be in the service configuration since it's in an environment variable from the service install.
+  - Move all constants in to a single file in the C# layer.
+  - Move all string constants that get displayed on screen in to a Messages file to make localisation easy.
