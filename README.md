@@ -3,6 +3,24 @@ The JustGivingService is a collection of Windows and web applications which allo
 
 The installation instructions below, where applicable, relate to installing the service on Windows 7.
 
+#### Contents
+1. [Prerequisites](https://github.com/dhickie/JustGivingService#prerequisites)
+2. [Installation](https://github.com/dhickie/JustGivingService#installation)
+  1. [Service installation instructions](https://github.com/dhickie/JustGivingService#service-installation-instructions)
+  2. [JRE installation instructions](https://github.com/dhickie/JustGivingService#jre-installation-instructions)
+  3. [Apache Tomcat installation instructions](https://github.com/dhickie/JustGivingService#apache-tomcat-8-installation-instructions)
+  4. [Rainmeter installation instructions](https://github.com/dhickie/JustGivingService#rainmeter-installation-instructions)
+  5. [Creating new environment variables](https://github.com/dhickie/JustGivingService#creating-new-environment-variables)
+3. [Configuration](https://github.com/dhickie/JustGivingService#configuration)
+  1. [Changing fundraiser page](https://github.com/dhickie/JustGivingService#changing-fundraiser-page)
+  2. [Other configuration options](https://github.com/dhickie/JustGivingService#other-configuration-options)
+4. [Development](https://github.com/dhickie/JustGivingService#development)
+  1. [Tools](https://github.com/dhickie/JustGivingService#tools)
+  2. [Architecture](https://github.com/dhickie/JustGivingService#architecture)
+  3. [Outputting fundraising data](https://github.com/dhickie/JustGivingService#outputting-fundraising-data)
+  4. [Working with the JavaScript layer](https://github.com/dhickie/JustGivingService#working-with-the-javascript-layer)
+  5. [Future work](https://github.com/dhickie/JustGivingService#future-work)
+
 ## Prerequisites
 There are number of prerequisites needed to use the JustGivingService:
 -	.Net 4.5
